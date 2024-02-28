@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .menu-bar {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        .menu-button {
+            margin: 0 10px; /* Отступы между CHAT ABOUT*/
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .chat-container {
+            max-width: 600px;
+            margin: 3px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chat-header {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 1px;
+            text-align: center;
+        }
+
+        .chat-messages {
+            padding: 10px;
+            overflow-y: auto; /* Используйте auto, чтобы добавить прокрутку при необходимости */
+            max-height: calc(100vh - 20vh - 20vh); /*Динамический расчет максимальной высоты, чтобы ограничить рост чата */
+        }
+
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #e0f7fa;
+        }
+
+        .user-message {
+            text-align: right;
+        }
+
+        .input-container {
+            display: flex;
+            background-color: #eee;
+            padding: 10px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 3px;
+            border-radius: 5px;
+            outline: none;
+            margin-right: 5px; /* Добавленный отступ */
+        }
+
+        .send-button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 3px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px; /* Добавленный отступ */
+        }
+
+        .clear-button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .github-link {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #333;
+            text-decoration: none;
+        }
+
+        .github-link:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            background-color: #333333f5;
+            color: #fff;
+            padding: 1px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <title>Simple Chat</title>
+</head>
+<body>
+    <div class="menu-bar">
+        <a href="/" class="menu-button">CHAT</a>
+        <a href="/about/" class="menu-button">ABOUT</a>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>Chat Room</h2>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+        </div>
+        <div class="input-container">
+            <input type="text" class="message-input" id="messageInput" placeholder="Type your message...">
+            <button class="send-button" onclick="sendMessage()">Send</button>
+            <button class="clear-button" id="clearChatButton">Clear Chat</button>
+        </div>
+        
+    </div>
+
+    <div class="footer">
+        <p>Check out the source code on <a href="https://github.com/RimTanaka/HTTP_serv_c" style="color: #fff;">GitHub</a></p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const messageInput = document.getElementById('messageInput');
+            const chatMessages = document.getElementById('chatMessages');
+            const clearChatButton = document.getElementById('clearChatButton');
+    
+            messageInput.addEventListener('keypress', function (event) {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+    
+            clearChatButton.addEventListener('click', function () {
+                clearChat();
+            });
+        });
+    
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const chatMessages = document.getElementById('chatMessages');
+    
+            if (messageInput.value.trim() !== '') {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message user-message';
+                messageDiv.innerText = messageInput.value;
+                chatMessages.appendChild(messageDiv);
+    
+                messageInput.value = '';
+                messageInput.focus();
+    
+                setTimeout(receiveMessage, 1000);
+            }
+        }
+    
+        function receiveMessage() {
+            const chatMessages = document.getElementById('chatMessages');
+    
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            messageDiv.innerText = 'This is a sample reply.';
+            chatMessages.appendChild(messageDiv);
+    
+            // Прокручивать вниз, только если ползунок прокрутки уже был внизу
+            if (chatMessages.scrollTop + chatMessages.clientHeight === chatMessages.scrollHeight) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+    
+        function clearChat() {
+            const chatMessages = document.getElementById('chatMessages');
+            // Удаление всех дочерних элементов из контейнера с сообщениями
+            while (chatMessages.firstChild) {
+                chatMessages.removeChild(chatMessages.firstChild);
+            }
+        }
+    </script>
+    
+    
+</body>
+</html>
